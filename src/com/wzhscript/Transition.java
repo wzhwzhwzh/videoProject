@@ -15,7 +15,7 @@ import com.examples.ffmpeg4android_demo_native.Prefs;
 import com.netcompss.loader.LoadJNI;
 
 public abstract class Transition {
-	final String workFolder = "/sdcard/videokit";//TODO: get the work folder dynamically
+	final String workFolder = "/sdcard/videokit/";//TODO: get the work folder dynamically
 	final int frameRate = 25;
 
 
@@ -74,7 +74,7 @@ public abstract class Transition {
 		Log.d(Prefs.TAG, "get transition audio");
 		
 		//get transition video
-		commandStr = "ffmpeg -y -f image2 -i "+ transFormat3 +" "+ transVideo;
+		commandStr = "ffmpeg -y -f image2 -i "+ imgDir + transFormat3 +" "+ transVideo;
 		vk.run(GeneralUtils.utilConvertToComplex(commandStr), workFolder, ctx);
 		
 		commandStr = "ffmpeg -i "+ transVideo +" -i "+ transAudio +" -vcodec copy -acodec copy "+ transPart;

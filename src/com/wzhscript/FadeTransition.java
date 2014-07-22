@@ -58,7 +58,7 @@ public class FadeTransition extends Transition {
 		    canvas.drawBitmap(bitmap1, 0f, 0f, paint1);
 		    canvas.drawBitmap(bitmap2, 0f, 0f, paint2); 
 		    
-		    GeneralUtils.saveImg(Bitmap.CompressFormat.JPEG, imgDir+imgFormat3, combined);
+		    GeneralUtils.saveImg(Bitmap.CompressFormat.JPEG, imgDir+String.format(imgFormat3, i), combined);
 		    
 		    Log.d(Prefs.TAG, "frame " + i + " of transition, alpha:" + alpha);
 		    
