@@ -6,6 +6,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
