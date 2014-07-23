@@ -105,10 +105,10 @@ public abstract class Transition {
 	
 	/** make sure temp_video1 and temp_video2 have the same aspect ratio and resolution
 	 * @param ctx
-	 * @param video1 source video path
-	 * @param video2 source video path
-	 * @param temp_video1 target video path
-	 * @param temp_video2 targei video path
+	 * @param video1, source video path
+	 * @param video2, source video path
+	 * @param temp_video1, target video path
+	 * @param temp_video2, targei video path
 	 */
 	private void paddingAndResizing(Context ctx, LoadJNI vk, String video1, String video2, String temp_video1, String temp_video2){
 		Map resolution1, resolution2;
@@ -130,9 +130,9 @@ public abstract class Transition {
 		maxRatio = Math.max(maxRatio, 4.0/3);	
 
 		//get target width and height
-		targetWidth = Math.max(width1, maxRatio*height1);
-		targetWidth = Math.max(targetWidth, width2);
-		targetWidth = Math.max(targetWidth, maxRatio*height2);
+		targetWidth = Math.min(width1, maxRatio*height1);
+		targetWidth = Math.min(targetWidth, width2);
+		targetWidth = Math.min(targetWidth, maxRatio*height2);
 		
 		targetHeight = targetWidth/maxRatio;
 		
@@ -179,6 +179,12 @@ public abstract class Transition {
 		}
 	}
 	
+	/** get video resolution width*height
+	 * @param ctx
+	 * @param vk
+	 * @param video, the path of video
+	 * @return
+	 */
 	private Map getVideoResolution(Context ctx, LoadJNI vk, String video){
 		Map<String, Integer> resolution = new HashMap();
 		String tempImage = "tmp_image.jpeg";
@@ -192,11 +198,25 @@ public abstract class Transition {
 		return resolution;
 	}
 	
+	/**resize video
+	 * @param ctx
+	 * @param vk
+	 * @param size
+	 * @param fromVideo
+	 * @param toVideo
+	 */
 	private void resizeVideo(Context ctx, LoadJNI vk, String size, String fromVideo, String toVideo){
 		String commandStr = "ffmpeg -y -i " + fromVideo +" -r "+ frameRate +" -strict experimental -s " + size + " "+ toVideo;
 		vk.run(GeneralUtils.utilConvertToComplex(commandStr), workFolder, ctx);		
 	}
 	
+	/**resize video
+	 * @param ctx
+	 * @param vk
+	 * @param pad
+	 * @param fromVideo
+	 * @param toVideo
+	 */
 	private void paddingVideo(Context ctx, LoadJNI vk, String pad, String fromVideo, String toVideo){
 		String commandStr = "ffmpeg -i "+ fromVideo +" -strict experimental -vf pad="+ pad +" "+ toVideo;
 		vk.run(GeneralUtils.utilConvertToComplex(commandStr), workFolder, ctx);
