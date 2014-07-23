@@ -35,7 +35,7 @@ public class FadeTransition extends Transition {
 		paint1 = new Paint();
 		paint2 = new Paint();
 		while(GeneralUtils.checkIfFileExistAndNotEmpty(imgDir+img1)||GeneralUtils.checkIfFileExistAndNotEmpty(imgDir+img2)){
-			Log.d(Prefs.TAG, "start frame processing:" + i);
+			//Log.d(Prefs.TAG, "start frame processing:" + i);
 			
 			//get origin images
 			if(GeneralUtils.checkIfFileExistAndNotEmpty(imgDir+img1)){
@@ -60,7 +60,7 @@ public class FadeTransition extends Transition {
 		    
 		    GeneralUtils.saveImg(Bitmap.CompressFormat.JPEG, imgDir+String.format(imgFormat3, i), combined);
 		    
-		    Log.d(Prefs.TAG, "frame " + i + " of transition, alpha:" + alpha);
+		    //Log.d(Prefs.TAG, "frame " + i + " of transition, alpha:" + alpha);
 		    
 		    i++;
 		    img1 = String.format(imgFormat1, i);

@@ -56,9 +56,6 @@ public class SimpleExample extends Activity {
 					}
 				}
 			});
-	      
-	      
-    
 	}
 	
 	 public class TranscdingBackground extends AsyncTask<String, Integer, Integer>
@@ -93,8 +90,8 @@ public class SimpleExample extends Activity {
 			
 			LoadJNI vk = new LoadJNI();
 			try {
-				String video1 = workFolder + "/part1.mp4";
-				String video2 = workFolder + "/part2.mp4";
+				String video1 = workFolder + "/part600x480.mp4";
+				String video2 = workFolder + "/part1280x720.mp4";
 				String final_video = workFolder + "/out_joint.mp4";
 				transition.combineVideo(getApplicationContext(), video1, video2, final_video, 2);
 			} catch (Throwable e) {
