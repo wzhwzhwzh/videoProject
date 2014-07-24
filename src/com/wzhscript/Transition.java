@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 import com.examples.ffmpeg4android_demo_native.GeneralUtils;
@@ -22,7 +23,12 @@ public abstract class Transition {
 	final String tmpFolder = workFolder+"tmp/";
 	final int frameRate = 25;
 
-
+	public Transition(){
+		File f = new File(Environment.getExternalStorageDirectory() + "/videokit/tmp");
+		if(!f.isDirectory()){
+			f.mkdirs();
+		}
+	}
 	public void combineVideo(Context ctx, String video1, String video2, String final_video, int transDur){
 		String imgFormat1 = "image1-%d.jpeg";
 		String imgFormat2 = "image2-%d.jpeg";
@@ -45,8 +51,6 @@ public abstract class Transition {
 		Map result = paddingAndResizing(ctx, vk, video1, video2);
 		tmp_video1 = result.get("video1").toString();
 		tmp_video2 = result.get("video2").toString();
-//		tmp_video1 = video1;
-//		tmp_video2 = video2;
 		
 		//get the duration of video1
 		int msec = MediaPlayer.create(ctx, Uri.fromFile(new File(tmp_video1))).getDuration();
@@ -96,7 +100,7 @@ public abstract class Transition {
 		String[] complexCommand = {"ffmpeg","-y","-i", part1, "-i", transPart, "-i", part2, "-strict","experimental", "-filter_complex", "[0:0] [0:1] [1:0] [1:1] [2:0] [2:1] concat=n=3:v=1:a=1", final_video};
 		vk.run(complexCommand, workFolder, ctx);
 		Log.d(Prefs.TAG, "get full video");
-	
+		
 	}
 	
 	/**generateTransitionImages 
