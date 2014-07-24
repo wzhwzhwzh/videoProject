@@ -1,13 +1,7 @@
 package com.examples.ffmpeg4android_demo_native;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -15,12 +9,15 @@ import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.netcompss.loader.LoadJNI;
-
-import com.wzhscript.*;
+import com.wzhscript.MakeTransition;
 
 /**
  *  To run this Demo Make sure you have on your device this folder:
@@ -29,7 +26,7 @@ import com.wzhscript.*;
  * @author elih
  *
  */
-public class SimpleExample extends Activity {
+public class SimpleExample extends Activity implements OnItemSelectedListener {
 	
 	final String workFolder = "/sdcard/videokit";
 	final String demoVideoPath = workFolder + "/in.mp4";
@@ -42,6 +39,15 @@ public class SimpleExample extends Activity {
 
 	      setContentView(R.layout.ffmpeg_demo_client);
 	      
+		   Spinner spinner = (Spinner) findViewById(R.id.type_spinner);
+		   // Create an ArrayAdapter using the string array and a default spinner layout
+		   ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+		           R.array.type_array, android.R.layout.simple_spinner_item);
+		   // Specify the layout to use when the list of choices appears
+		   adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		   // Apply the adapter to the spinner
+		   spinner.setAdapter(adapter);
+		   spinner.setOnItemSelectedListener(this);
 	      
 	      
 	      Button invoke =  (Button)findViewById(R.id.invokeButton);
@@ -90,11 +96,13 @@ public class SimpleExample extends Activity {
 			
 			LoadJNI vk = new LoadJNI();
 			try {
-				String video1 = workFolder + "/part600x480.mp4";
-				String video2 = workFolder + "/part1280x720.mp4";
+				String video1 = workFolder + "/part1.mp4";
+				String video2 = workFolder + "/part2.mp4";
 				String final_video = workFolder + "/out_joint.mp4";
 				MakeTransition transition = new MakeTransition();
-				transition.combineVideoWithTransition(getApplicationContext(), "fade", video1, video2, final_video, 2);
+				Spinner spinner = (Spinner) findViewById(R.id.type_spinner);
+				String type = spinner.getSelectedItem().toString();
+				transition.combineVideoWithTransition(getApplicationContext(), type, video1, video2, final_video, 2);
 			} catch (Throwable e) {
 				Log.e(Prefs.TAG, "vk run exeption.", e);
 			}
@@ -136,9 +144,18 @@ public class SimpleExample extends Activity {
 				  }
 				});
 
-	 	}
-	
+	 	} 	
 	 }
+
+    public void onItemSelected(AdapterView<?> parent, View view, 
+            int pos, long id) {
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
+    }	
 	 
 
 }
