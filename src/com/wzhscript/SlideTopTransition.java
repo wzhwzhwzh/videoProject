@@ -3,15 +3,14 @@ package com.wzhscript;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.util.Log;
 
 import com.examples.ffmpeg4android_demo_native.GeneralUtils;
 import com.examples.ffmpeg4android_demo_native.Prefs;
 
-public class SlideLeftTransition extends Transition {
+public class SlideTopTransition extends Transition {
 
-	public SlideLeftTransition() {
+	public SlideTopTransition() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -20,7 +19,7 @@ public class SlideLeftTransition extends Transition {
 			String imgFormat1, String imgFormat2, String imgFormat3,
 			int transDur) {
 		int i = 1;
-		int width1, width2, width, height;
+		int height1, height2, width, height;
 		int frames = transDur*frameRate;
 		String img1, img2;
 		Canvas canvas;
@@ -56,15 +55,14 @@ public class SlideLeftTransition extends Transition {
 			
 			
 		    frames = i>frames? i:frames;//ensure i <= frames
-		    width1 = (int)(width*(1 - i*1.0/frames));//compute current width
-		    width1 = width1 == 0 ? 1 : width1;//ensure width1 > 0
-		    width2 = width - width1;
+		    height1 = (int)(height*(1 - i*1.0/frames));//compute current height
+		    height1 = height1 == 0 ? 1 : height1;//ensure height1 > 0
+		    height2 = height - height1;
 
-		    Log.d(Prefs.TAG, "frame " + i + " of transition, width1:" + width1 + " width2:" + width2);
-		    bitmap1 = Bitmap.createBitmap(bitmap1, width2, 0, width1, height);
+		    bitmap1 = Bitmap.createBitmap(bitmap1, 0, height2, width, height1);
 		    canvas.drawBitmap(bitmap1, 0f, 0f, null);
-		    bitmap2 = Bitmap.createBitmap(bitmap2, 0, 0, width2, height);
-		    canvas.drawBitmap(bitmap2, (float)width1, 0f, null); 
+		    bitmap2 = Bitmap.createBitmap(bitmap2, 0, 0, width, height2);
+		    canvas.drawBitmap(bitmap2, 0f, (float)height1, null); 
 		    
 		    saveImg(Bitmap.CompressFormat.JPEG, tmpFolder+String.format(imgFormat3, i), combined);
 		    

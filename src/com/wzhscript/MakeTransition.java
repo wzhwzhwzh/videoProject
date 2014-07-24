@@ -14,6 +14,12 @@ public class MakeTransition {
 			transition = new FadeTransition();
 		}else if(type.equals("slideLeft")){
 			transition = new SlideLeftTransition();
+		}else if(type.equals("slideRight")){
+			transition = new SlideRightTransition();
+		}else if(type.equals("slideTop")){
+			transition = new SlideTopTransition();
+		}else if(type.equals("slideDown")){
+			transition = new SlideDownTransition();
 		}
 		transition.combineVideo(ctx, video1, video2, out_joint, duration);
 	}
