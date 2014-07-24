@@ -1,6 +1,7 @@
 package com.wzhscript;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -239,4 +240,25 @@ public abstract class Transition {
 		String commandStr = "ffmpeg -i "+ fromVideo +" -strict experimental -vf "+ pad +" "+ toVideo;
 		vk.run(GeneralUtils.utilConvertToComplex(commandStr), workFolder, ctx);
 	}
+	
+	/**
+	 * @param format
+	 * @param file_path
+	 * @param bitmap
+	 */
+	protected void saveImg(Bitmap.CompressFormat format, String file_path, Bitmap bitmap) {
+	      File file = new File(file_path);
+	      FileOutputStream fOut;
+	      
+	      try {
+	    	  fOut = new FileOutputStream(file);
+		      
+	    	  bitmap.compress(format, 85, fOut);
+		      fOut.flush();
+		      fOut.close();
+		  } catch (Exception e) {
+			  // TODO Auto-generated catch block
+			  e.printStackTrace();
+		  }		
+	}	
 }

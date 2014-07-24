@@ -18,7 +18,6 @@ public class FadeTransition extends Transition {
 	@Override
 	protected void generateTransitionImages(String imgDir, String imgFormat1,
 			String imgFormat2, String imgFormat3, int transDur) {
-		// TODO Auto-generated method stub
 		int i = 1, alpha;
 		int frames = transDur*frameRate;
 		String img1, img2;
@@ -41,10 +40,12 @@ public class FadeTransition extends Transition {
 			if(GeneralUtils.checkIfFileExistAndNotEmpty(imgDir+img1)){
 				bitmap1 = BitmapFactory.decodeFile(imgDir+img1, options);
 			}
+			
 			if(GeneralUtils.checkIfFileExistAndNotEmpty(imgDir+img2)){
 				bitmap2 = BitmapFactory.decodeFile(imgDir+img2, options);
+			}else{
+				break;//optimizing: avoid stuck between transition and next part video
 			}
-			
 			//paint transition image
 			combined = Bitmap.createBitmap(bitmap2.getWidth(), bitmap2.getHeight() , Bitmap.Config.ARGB_8888);
 			canvas = new Canvas(combined); 
@@ -58,7 +59,7 @@ public class FadeTransition extends Transition {
 		    canvas.drawBitmap(bitmap1, 0f, 0f, paint1);
 		    canvas.drawBitmap(bitmap2, 0f, 0f, paint2); 
 		    
-		    GeneralUtils.saveImg(Bitmap.CompressFormat.JPEG, imgDir+String.format(imgFormat3, i), combined);
+		    saveImg(Bitmap.CompressFormat.JPEG, imgDir+String.format(imgFormat3, i), combined);
 		    
 		    //Log.d(Prefs.TAG, "frame " + i + " of transition, alpha:" + alpha);
 		    

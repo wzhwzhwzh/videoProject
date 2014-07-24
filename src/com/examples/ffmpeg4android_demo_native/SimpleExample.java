@@ -81,7 +81,7 @@ public class SimpleExample extends Activity {
 	 	protected Integer doInBackground(String... paths) {
 	 		Log.i(Prefs.TAG, "doInBackground started...");
 	 		
-	 		Transition transition = new FadeTransition();
+	 		
 	 		
 	 		PowerManager powerManager = (PowerManager)_act.getSystemService(_act.POWER_SERVICE);
 			WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "VK_LOCK"); 
@@ -93,7 +93,8 @@ public class SimpleExample extends Activity {
 				String video1 = workFolder + "/part600x480.mp4";
 				String video2 = workFolder + "/part1280x720.mp4";
 				String final_video = workFolder + "/out_joint.mp4";
-				transition.combineVideo(getApplicationContext(), video1, video2, final_video, 2);
+				MakeTransition transition = new MakeTransition();
+				transition.combineVideoWithTransition(getApplicationContext(), "fade", video1, video2, final_video, 2);
 			} catch (Throwable e) {
 				Log.e(Prefs.TAG, "vk run exeption.", e);
 			}
