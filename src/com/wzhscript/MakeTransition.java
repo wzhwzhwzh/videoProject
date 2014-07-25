@@ -15,14 +15,6 @@ public class MakeTransition {
 			
 			transition = new FadeTransition();
 			
-		}else if(type.equals("fadeIn")){
-			
-			transition = new FadeInTransition();
-			
-		}else if(type.equals("fadeOut")){
-			
-			transition = new FadeOutTransition();
-			
 		}
 		//slide
 		else if(type.equals("slideLeft")){
