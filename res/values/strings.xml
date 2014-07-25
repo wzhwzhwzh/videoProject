@@ -10,6 +10,14 @@
     <item>slideLeft</item>
     <item>slideTop</item>
     <item>slideRight</item>
-    <item>slideBottom</item>
+    <item>slideDown</item>
+    <item>flyInLeft</item>
+    <item>flyInRight</item>
+    <item>flyInTop</item>
+    <item>flyInDown</item>
+    <item>flyOutLeft</item>
+    <item>flyOutRight</item>
+    <item>flyOutTop</item>
+    <item>flyOutDown</item>
 </string-array>
 </resources>

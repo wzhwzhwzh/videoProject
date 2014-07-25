@@ -60,12 +60,31 @@ public class MakeTransition {
 		}else if(type.equals("flyOutTop")){
 			
 			transition = new FlyOutTopTransition();
-			
+		
 		}else if(type.equals("flyOutDown")){
 			
 			transition = new FlyOutDownTransition();
 			
+		//fade fly
+		}else if(type.equals("fadeFlyLeft")){
+			
+			transition = new FlyOutLeftTransition();
+			
+		}else if(type.equals("fadeFlyRight")){
+			
+			transition = new FlyOutRightTransition();
+			
+		}else if(type.equals("fadeFlyTop")){
+			
+			transition = new FlyOutTopTransition();
+			
+		}else if(type.equals("fadeFlyDown")){
+			
+			transition = new FlyOutDownTransition();
+			
 		}
+		
+		
 		transition.combineVideo(ctx, video1, video2, out_joint, duration);
 	}
 }
