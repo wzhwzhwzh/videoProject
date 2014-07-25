@@ -4,26 +4,25 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 
 import com.examples.ffmpeg4android_demo_native.GeneralUtils;
-import com.examples.ffmpeg4android_demo_native.Prefs;
 
-public class FadeTransition extends Transition {
+public class FadeFlyLTransition extends Transition {
 
-	public FadeTransition() {
-		// TODO Auto-generated constructor stub
+	public FadeFlyLTransition() {
 	}
 
 	@Override
-	protected void generateTransitionImages(String tmpFolder, String imgFormat1,
-			String imgFormat2, String imgFormat3, int transDur) {
+	protected void generateTransitionImages(String tmpFolder,
+			String imgFormat1, String imgFormat2, String imgFormat3,
+			int transDur) {
 		int i = 1, alpha;
+		int width1, width2, width, height;
 		int frames = transDur*frameRate;
 		String img1, img2;
 		Canvas canvas;
 		Bitmap bitmap1, bitmap2, combined;
-	    Paint paint1, paint2;
+		Paint paint;
 	    
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -31,8 +30,12 @@ public class FadeTransition extends Transition {
 		img1 = String.format(imgFormat1, i);
 		img2 = String.format(imgFormat2, i);
 		bitmap1 = bitmap2 = null;
-		paint1 = new Paint();
-		paint2 = new Paint();
+		
+		bitmap1 = BitmapFactory.decodeFile(tmpFolder+img1, options);
+		width = bitmap1.getWidth();
+		height = bitmap1.getHeight();
+		paint = new Paint();
+		
 		while(GeneralUtils.checkIfFileExistAndNotEmpty(tmpFolder+img1)||GeneralUtils.checkIfFileExistAndNotEmpty(tmpFolder+img2)){
 			//Log.d(Prefs.TAG, "start frame processing:" + i);
 			
@@ -51,13 +54,15 @@ public class FadeTransition extends Transition {
 			canvas = new Canvas(combined); 
 			
 			
-		    frames = i>frames? i:frames;
+		    frames = i>frames? i:frames;//ensure i <= frames
 		    alpha = (int)(255*(1 - i*1.0/frames));//compute current alpha
-		    paint1.setAlpha(alpha);
-		    paint2.setAlpha(255 - alpha);
+		    paint.setAlpha(alpha);
+		    width2 = (int)(width*i*1.0/frames);//compute current width
+		    width2 = width2 == 0 ? 1 : width2;//ensure width2 > 0
 
-		    canvas.drawBitmap(bitmap1, 0f, 0f, paint1);
-		    canvas.drawBitmap(bitmap2, 0f, 0f, paint2); 
+		    canvas.drawBitmap(bitmap1, 0f, 0f, paint);
+		    bitmap2 = Bitmap.createBitmap(bitmap2, width - width2, 0, width2, height);
+		    canvas.drawBitmap(bitmap2, 0f, 0f, null); 
 		    
 		    saveImg(Bitmap.CompressFormat.JPEG, tmpFolder+String.format(imgFormat3, i), combined);
 		    
@@ -67,6 +72,7 @@ public class FadeTransition extends Transition {
 		    img1 = String.format(imgFormat1, i);
 		    img2 = String.format(imgFormat2, i);
 		}
+
 	}
 
 }

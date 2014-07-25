@@ -10,12 +10,22 @@ public class MakeTransition {
 	}
 
 	public void combineVideoWithTransition(Context ctx, String type, String video1, String video2, String out_joint, int duration){
-		//slide
+		//fade
 		if(type.equals("fade")){
 			
 			transition = new FadeTransition();
 			
-		}else if(type.equals("slideLeft")){
+		}else if(type.equals("fadeIn")){
+			
+			transition = new FadeInTransition();
+			
+		}else if(type.equals("fadeOut")){
+			
+			transition = new FadeOutTransition();
+			
+		}
+		//slide
+		else if(type.equals("slideLeft")){
 			
 			transition = new SlideLeftTransition();
 			
@@ -31,8 +41,9 @@ public class MakeTransition {
 			
 			transition = new SlideDownTransition();
 			
+		}
 		//fly in
-		}else if(type.equals("flyInLeft")){
+		else if(type.equals("flyInLeft")){
 			
 			transition = new FlyInLeftTransition();
 			
@@ -48,8 +59,9 @@ public class MakeTransition {
 			
 			transition = new FlyInDownTransition();
 			
+		}
 		//fly out
-		}else if(type.equals("flyOutLeft")){
+		else if(type.equals("flyOutLeft")){
 			
 			transition = new FlyOutLeftTransition();
 			
@@ -65,22 +77,37 @@ public class MakeTransition {
 			
 			transition = new FlyOutDownTransition();
 			
+		}
 		//fade fly
-		}else if(type.equals("fadeFlyLeft")){
+		else if(type.equals("fadeFlyLeft")){
 			
-			transition = new FlyOutLeftTransition();
+			transition = new FadeFlyLTransition();
 			
 		}else if(type.equals("fadeFlyRight")){
 			
-			transition = new FlyOutRightTransition();
+			transition = new FadeFlyRTransition();
 			
 		}else if(type.equals("fadeFlyTop")){
 			
-			transition = new FlyOutTopTransition();
+			transition = new FadeFlyTTransition();
 			
 		}else if(type.equals("fadeFlyDown")){
 			
-			transition = new FlyOutDownTransition();
+			transition = new FadeFlyDTransition();
+			
+		}
+		//scale
+		else if(type.equals("scale")){
+			
+			transition = new ScaleTransition();
+			
+		}else if(type.equals("scaleDown")){
+			
+			transition = new ScaleDownTransition();
+			
+		}else if(type.equals("scaleUp")){
+			
+			transition = new ScaleUpTransition();
 			
 		}
 		

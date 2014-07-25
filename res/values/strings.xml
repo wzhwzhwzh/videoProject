@@ -7,6 +7,8 @@
 <string name="commandText">ffmpeg -y -i /sdcard/videokit/in.mp4 -strict experimental -vf transpose=1 -s 160x120 -r 30 -aspect 4:3 -ab 48000 -ac 2 -ar 22050 -b 2097k /sdcard/videokit/out.mp4</string>
 <string-array name="type_array">
     <item>fade</item>
+    <item>fadeIn</item>
+    <item>fadeOut</item>
     <item>slideLeft</item>
     <item>slideTop</item>
     <item>slideRight</item>
@@ -19,5 +21,12 @@
     <item>flyOutRight</item>
     <item>flyOutTop</item>
     <item>flyOutDown</item>
+    <item>scale</item>
+    <item>scaleUp</item>
+    <item>scaleDown</item>
+    <item>fadeFlyLeft</item>
+    <item>fadeFlyRight</item>
+    <item>fadeFlyTop</item>
+    <item>fadeFlyDown</item>
 </string-array>
 </resources>
