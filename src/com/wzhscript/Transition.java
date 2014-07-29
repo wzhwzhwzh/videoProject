@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,17 +20,31 @@ import com.examples.ffmpeg4android_demo_native.Prefs;
 import com.netcompss.loader.LoadJNI;
 
 public abstract class Transition {
-	final String workFolder = "/sdcard/videokit/";//TODO: get the work folder dynamically
-	final String tmpFolder = workFolder+"tmp/";
+	private String workFolder;
+	private String tmpFolder;
+	Activity act;
 	final int frameRate = 25;
 
-	public Transition(){
-		File f = new File(Environment.getExternalStorageDirectory() + "/videokit/tmp");
+	public Transition(Activity _act){
+		act = _act;
+		workFolder = Environment.getExternalStorageDirectory() + "/videokit/";
+		tmpFolder = workFolder + "tmp/";
+		File f = new File(tmpFolder);
 		if(!f.isDirectory()){
 			f.mkdirs();
 		}
 	}
-	public void combineVideo(Context ctx, String video1, String video2, String final_video, int transDur){
+	public Transition(Activity _act, String folder){
+		act = _act;
+		workFolder = folder;
+		tmpFolder = workFolder + "/tmp/";
+		File f = new File(tmpFolder);
+		if(!f.isDirectory()){
+			f.mkdirs();
+		}
+	}
+	public void combineVideo(String video1, String video2, String final_video, int transDur){
+		Context ctx = act.getApplicationContext();
 		String imgFormat1 = "image1-%d.jpeg";
 		String imgFormat2 = "image2-%d.jpeg";
 		String transFormat3 = "transition-%d.jpeg";
@@ -51,18 +66,19 @@ public abstract class Transition {
 		Map result = paddingAndResizing(ctx, vk, video1, video2);
 		tmp_video1 = result.get("video1").toString();
 		tmp_video2 = result.get("video2").toString();
+//		tmp_video1 = video1;
+//		tmp_video2 = video2;
 		
 		//get the duration of video1
-		int msec = MediaPlayer.create(ctx, Uri.fromFile(new File(tmp_video1))).getDuration();
-		duration1 = (int)TimeUnit.MILLISECONDS.toSeconds(msec);
+		duration1 = getDurationOfVideo(tmp_video1);
 		
 		//get the first part of video1
-		String commandStr = "ffmpeg -y -i " + tmp_video1 + " -strict experimental -t "+ (duration1 - transDur) +" " + part1;
+		String commandStr = "ffmpeg -y -i " + tmp_video1 + " -strict experimental -c copy -t "+ (duration1 - transDur) +" " + part1;
 		vk.run(GeneralUtils.utilConvertToComplex(commandStr), workFolder, ctx);
 		Log.d(Prefs.TAG, "get the first part of video1...");
 		
 		//get the second part of video2
-		commandStr = "ffmpeg -y -i "+tmp_video2+" -strict experimental -ss " + transDur + " " + part2;
+		commandStr = "ffmpeg -y -i "+tmp_video2+" -strict experimental -c copy -ss " + transDur + " " + part2;
 		vk.run(GeneralUtils.utilConvertToComplex(commandStr), workFolder, ctx);
 		Log.d(Prefs.TAG, "get the second part of video2...");
 		
@@ -97,7 +113,7 @@ public abstract class Transition {
 		Log.d(Prefs.TAG, "get transition video");
 		
 		//get full video
-		String[] complexCommand = {"ffmpeg","-y","-i", part1, "-i", transPart, "-i", part2, "-strict","experimental", "-filter_complex", "[0:0] [0:1] [1:0] [1:1] [2:0] [2:1] concat=n=3:v=1:a=1", final_video};
+		String[] complexCommand = {"ffmpeg","-y","-i", part1, "-i", transPart, "-i", part2, "-strict","experimental","-b:a","32k", "-filter_complex", "[0:0] [0:1] [1:0] [1:1] [2:0] [2:1] concat=n=3:v=1:a=1", final_video};
 		vk.run(complexCommand, workFolder, ctx);
 		Log.d(Prefs.TAG, "get full video");
 		
@@ -219,6 +235,13 @@ public abstract class Transition {
 		resolution.put("height", bitmap.getHeight());
 			
 		return resolution;
+	}
+	
+	private int getDurationOfVideo(String video){
+		int duration=0;
+		int msec = MediaPlayer.create(act.getApplicationContext(), Uri.fromFile(new File(video))).getDuration();
+		duration = (int)TimeUnit.MILLISECONDS.toSeconds(msec);
+		return duration;
 	}
 	
 	/**resize video

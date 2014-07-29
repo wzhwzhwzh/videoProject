@@ -1,5 +1,6 @@
 package com.wzhscript;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,7 +12,13 @@ import com.examples.ffmpeg4android_demo_native.Prefs;
 
 public class SlideLeftTransition extends Transition {
 
-	public SlideLeftTransition() {
+	public SlideLeftTransition(Activity _act, String folder) {
+		super(_act, folder);
+		// TODO Auto-generated constructor stub
+	}
+
+	public SlideLeftTransition(Activity _act) {
+		super(_act);
 		// TODO Auto-generated constructor stub
 	}
 

@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -96,13 +97,15 @@ public class SimpleExample extends Activity implements OnItemSelectedListener {
 			
 			LoadJNI vk = new LoadJNI();
 			try {
-				String video1 = workFolder + "/part1.mp4";
-				String video2 = workFolder + "/part2.mp4";
+				EditText nameText1 = (EditText)findViewById(R.id.video1); 
+				EditText nameText2 = (EditText)findViewById(R.id.video2);
+				String video1 = workFolder + "/" + nameText1.getText();
+				String video2 = workFolder + "/" + nameText2.getText();
 				String final_video = workFolder + "/out_joint.mp4";
-				MakeTransition transition = new MakeTransition();
+				MakeTransition transition = new MakeTransition(_act);
 				Spinner spinner = (Spinner) findViewById(R.id.type_spinner);
 				String type = spinner.getSelectedItem().toString();
-				transition.combineVideoWithTransition(getApplicationContext(), type, video1, video2, final_video, 2);
+				transition.concateVideosWithTransEffect(type, video1, video2, final_video, 2);
 			} catch (Throwable e) {
 				Log.e(Prefs.TAG, "vk run exeption.", e);
 			}

@@ -1,109 +1,124 @@
 package com.wzhscript;
 
-import android.content.Context;
+import android.app.Activity;
+import android.os.Environment;
 
 public class MakeTransition {
 	private Transition transition;
-
-	public MakeTransition() {
-		// TODO Auto-generated constructor stub
+	private String workFolder;
+	private Activity act;
+	public MakeTransition(Activity _act) {
+		act = _act;
+		workFolder = Environment.getExternalStorageDirectory() + "/videokit";
+	}
+	public MakeTransition(Activity _act, String folder) {
+		act = _act;
+		workFolder = folder;
 	}
 
-	public void combineVideoWithTransition(Context ctx, String type, String video1, String video2, String out_joint, int duration){
+	/**
+	 * @param ctx
+	 * @param type
+	 * @param video1
+	 * @param video2
+	 * @param out_joint
+	 * @param duration
+	 */
+	public void concateVideosWithTransEffect(String type, String video1, String video2, String out_joint, int duration){
 		//fade
 		if(type.equals("fade")){
 			
-			transition = new FadeTransition();
+			transition = new FadeTransition(act, workFolder);
 			
 		}
 		//slide
 		else if(type.equals("slideLeft")){
 			
-			transition = new SlideLeftTransition();
+			transition = new SlideLeftTransition(act, workFolder);
 			
 		}else if(type.equals("slideRight")){
 			
-			transition = new SlideRightTransition();
+			transition = new SlideRightTransition(act, workFolder);
 			
 		}else if(type.equals("slideTop")){
 			
-			transition = new SlideTopTransition();
+			transition = new SlideTopTransition(act, workFolder);
 			
 		}else if(type.equals("slideDown")){
 			
-			transition = new SlideDownTransition();
+			transition = new SlideDownTransition(act, workFolder);
 			
 		}
 		//fly in
 		else if(type.equals("flyInLeft")){
 			
-			transition = new FlyInLeftTransition();
+			transition = new FlyInLeftTransition(act, workFolder);
 			
 		}else if(type.equals("flyInRight")){
 			
-			transition = new FlyInRightTransition();
+			transition = new FlyInRightTransition(act, workFolder);
 			
 		}else if(type.equals("flyInTop")){
 			
-			transition = new FlyInTopTransition();
+			transition = new FlyInTopTransition(act, workFolder);
 			
 		}else if(type.equals("flyInDown")){
 			
-			transition = new FlyInDownTransition();
+			transition = new FlyInDownTransition(act, workFolder);
 			
 		}
 		//fly out
 		else if(type.equals("flyOutLeft")){
 			
-			transition = new FlyOutLeftTransition();
+			transition = new FlyOutLeftTransition(act, workFolder);
 			
 		}else if(type.equals("flyOutRight")){
 			
-			transition = new FlyOutRightTransition();
+			transition = new FlyOutRightTransition(act, workFolder);
 			
 		}else if(type.equals("flyOutTop")){
 			
-			transition = new FlyOutTopTransition();
+			transition = new FlyOutTopTransition(act, workFolder);
 		
 		}else if(type.equals("flyOutDown")){
 			
-			transition = new FlyOutDownTransition();
+			transition = new FlyOutDownTransition(act, workFolder);
 			
 		}
 		//fade fly
 		else if(type.equals("fadeFlyLeft")){
 			
-			transition = new FadeFlyLTransition();
+			transition = new FadeFlyLTransition(act, workFolder);
 			
 		}else if(type.equals("fadeFlyRight")){
 			
-			transition = new FadeFlyRTransition();
+			transition = new FadeFlyRTransition(act, workFolder);
 			
 		}else if(type.equals("fadeFlyTop")){
 			
-			transition = new FadeFlyTTransition();
+			transition = new FadeFlyTTransition(act, workFolder);
 			
 		}else if(type.equals("fadeFlyDown")){
 			
-			transition = new FadeFlyDTransition();
+			transition = new FadeFlyDTransition(act, workFolder);
 			
 		}
 		//scale
 		else if(type.equals("scale")){
 			
-			transition = new ScaleTransition();
+			transition = new ScaleTransition(act, workFolder);
 			
 		}else if(type.equals("scaleDown")){
 			
-			transition = new ScaleDownTransition();
+			transition = new ScaleDownTransition(act, workFolder);
 			
 		}else if(type.equals("scaleUp")){
 			
-			transition = new ScaleUpTransition();
+			transition = new ScaleUpTransition(act, workFolder);
 			
 		}
 		
 		
-		transition.combineVideo(ctx, video1, video2, out_joint, duration);
+		transition.combineVideo(video1, video2, out_joint, duration);
 	}
 }
